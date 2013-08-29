@@ -6,6 +6,8 @@ import Yesod
 import Data.Aeson
 import System.Environment (getEnv)
 import qualified Control.Exception as E
+import Language.Haskell.TH.Syntax (qRunIO)
+import Control.Concurrent (threadDelay)
 
 import Json
 import World
@@ -189,6 +191,7 @@ getWorld4R = returnJson world4
 
 
 main = do
+    $(qRunIO (threadDelay 11000000) >> [|putStrLn "From TH"|])
     portEither <- getPortEither
     let port = case portEither of
                         Right val -> read val
